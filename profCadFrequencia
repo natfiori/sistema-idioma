@@ -1,0 +1,156 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.OleDb;
+
+namespace sistemaoficial
+{
+    public partial class profCadFrequencia : Form
+    {
+        public profCadFrequencia()
+        {
+            InitializeComponent();
+            codAluno.Focus();
+        }
+
+        private void profCadFrequencia_Load(object sender, EventArgs e)
+        {
+            // TODO: esta linha de código carrega dados na tabela 'bdsistemaoficialDataSet.frequencia'. Você pode movê-la ou removê-la conforme necessário.
+            this.frequenciaTableAdapter.Fill(this.bdsistemaoficialDataSet.frequencia);
+
+        }
+
+
+        class conexao
+        {
+            public OleDbConnection cn = new OleDbConnection();
+            public void conectar()
+            {
+                if (cn.State == ConnectionState.Open)
+                {
+                    cn.Close();
+                }
+                cn.ConnectionString = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=|DataDirectory|\bdsistemaoficial.mdb";
+                cn.Open();
+            }
+        }
+
+        public void procurarNome()
+        {
+            if (codAluno.Text != "0" && codAluno.Text != "")
+            {
+                string query = "SELECT * FROM aluno WHERE codAluno=@codAluno";
+
+                conexao conexao = new conexao();
+                conexao.conectar();
+
+                OleDbCommand cmd = new OleDbCommand(query, conexao.cn);
+
+                cmd.Parameters.AddWithValue("@codAluno", codAluno.Text);
+
+                OleDbDataReader dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    string query2 = "SELECT nomeAluno FROM aluno WHERE codAluno=@codAluno";
+
+                    conexao conexao2 = new conexao();
+                    conexao2.conectar();
+
+                    OleDbCommand cmd2 = new OleDbCommand(query2, conexao2.cn);
+
+                    cmd2.Parameters.AddWithValue("@codAluno", codAluno.Text);
+
+                    OleDbDataReader dr2 = cmd2.ExecuteReader();
+                    if (dr2.Read())
+                    {
+                        textBox1.Text = (dr2["nomeAluno"].ToString());
+
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Cadastro inexistente.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                    codAluno.Text = "";
+                }
+            }
+        }
+
+        public void procurarCad()
+        {
+            if (codAluno.Text != "0" && codAluno.Text != "")
+            {
+                string query = "SELECT * FROM aluno WHERE codAluno=@codAluno";
+
+                conexao conexao = new conexao();
+                conexao.conectar();
+
+                OleDbCommand cmd = new OleDbCommand(query, conexao.cn);
+
+                cmd.Parameters.AddWithValue("@codAluno", codAluno.Text);
+
+                OleDbDataReader dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Cadastro inexistente.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                    codAluno.Text = "";
+                }
+            }
+        }
+
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            procurarNome();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            procurarCad();
+            if (codAluno.Text == "" || data.Text == "" || status.Text == "")
+            {
+                MessageBox.Show("Campo preenchido incorretamente ou vazio.", "Sistema Simple Solution", MessageBoxButtons.OK);
+            }
+            else
+            {
+                this.frequenciaTableAdapter.Insert(Convert.ToInt32(codAluno.Text),Convert.ToDateTime(data.Text),status.Text);
+                this.frequenciaTableAdapter.Update(bdsistemaoficialDataSet.frequencia);
+                MessageBox.Show("Seu cadastro foi efetuado com sucesso.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                this.frequenciaTableAdapter.Fill(this.bdsistemaoficialDataSet.frequencia);
+                textBox1.Text = "";
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (codAluno.Text == "" || data.Text == "" || status.Text == "")
+            {
+                MessageBox.Show("Campo preenchido incorretamente ou vazio.", "Sistema Simple Solution", MessageBoxButtons.OK);
+            }
+            else
+            {
+                this.Validate();
+                this.bindingSource1.EndEdit();
+                this.frequenciaTableAdapter.Update(bdsistemaoficialDataSet.frequencia);
+                MessageBox.Show("Atualizado com sucesso.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                textBox1.Text = "";
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            
+        }
+    }
+}
