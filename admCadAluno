@@ -1,0 +1,234 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.OleDb;
+
+namespace sistemaoficial
+{
+    public partial class admCadAluno : Form
+    {
+        public admCadAluno()
+        {
+            InitializeComponent();
+            MessageBox.Show("Se o aluno for menor de idade, primeiro preencher o formulário do responsável clicando em Responsável no menu Cadastro.", "Sistema Simple Solution", MessageBoxButtons.OK);
+            nome.Focus();
+        }
+
+        private void admCadAluno_Load(object sender, EventArgs e)
+        {
+            // TODO: esta linha de código carrega dados na tabela 'bdsistemaoficialDataSet.aluno'. Você pode movê-la ou removê-la conforme necessário.
+            this.alunoTableAdapter.Fill(this.bdsistemaoficialDataSet.aluno);
+
+        }
+
+        
+        class conexao
+        {
+            public OleDbConnection cn = new OleDbConnection();
+            public void conectar()
+            {
+                if (cn.State == ConnectionState.Open)
+                {
+                    cn.Close();
+                }
+                cn.ConnectionString = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=|DataDirectory|\bdsistemaoficial.mdb";
+                cn.Open();
+            }
+        }
+
+       
+
+        public void procurarNome()
+        {
+            if (codResponsavel.Text != "0" && codResponsavel.Text != "")
+            {
+                string query = "SELECT * FROM responsavel WHERE codResponsavel=@codResponsavel";
+
+                conexao conexao = new conexao();
+                conexao.conectar();
+
+                OleDbCommand cmd = new OleDbCommand(query, conexao.cn);
+
+                cmd.Parameters.AddWithValue("@codResponsavel", codResponsavel.Text);
+
+                OleDbDataReader dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    string query2 = "SELECT nomeResponsavel FROM responsavel WHERE codResponsavel=@codResponsavel";
+
+                    conexao conexao2 = new conexao();
+                    conexao2.conectar();
+
+                    OleDbCommand cmd2 = new OleDbCommand(query2, conexao2.cn);
+
+                    cmd2.Parameters.AddWithValue("@codResponsavel", codResponsavel.Text);
+
+                    OleDbDataReader dr2 = cmd2.ExecuteReader();
+                    if (dr2.Read())
+                    {
+                        textBox1.Text = (dr2["nomeResponsavel"].ToString());
+
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Cadastro inexistente.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                    codResponsavel.Text = "";
+                }
+            }
+        }
+
+        public void procurarCad()
+        {
+            if (codResponsavel.Text != "0" && codResponsavel.Text != "")
+            {
+                string query = "SELECT * FROM responsavel WHERE codResponsavel=@codResponsavel";
+
+                conexao conexao = new conexao();
+                conexao.conectar();
+
+                OleDbCommand cmd = new OleDbCommand(query, conexao.cn);
+
+                cmd.Parameters.AddWithValue("@codResponsavel", codResponsavel.Text);
+
+                OleDbDataReader dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Cadastro inexistente.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                    textBox1.Text = "";
+                }
+            }
+        }
+
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            procurarCad();
+            if (codResponsavel.Text == "")
+            {
+                codResponsavel.Text = "0";
+            }
+            
+
+            if (nome.Text == "" || user.Text == "" || senha.Text == "" || nascimento.Text == "")
+            {
+                MessageBox.Show("Campo preenchido incorretamente ou vazio.", "Sistema Simple Solution", MessageBoxButtons.OK);
+            }
+            else
+            {
+                this.alunoTableAdapter.Insert(nome.Text, Convert.ToDateTime(nascimento.Text), rg.Text, cpf.Text, endereco.Text, numero.Text, bairro.Text, cidade.Text, email.Text, telefone.Text, Convert.ToInt32(codResponsavel.Text), user.Text, senha.Text);
+                this.alunoTableAdapter.Update(bdsistemaoficialDataSet.aluno);
+                if (codResponsavel.Text == "0")
+                {
+                    MessageBox.Show("Responsável não cadastrado.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                }
+                MessageBox.Show("Seu cadastro foi efetuado com sucesso.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                this.alunoTableAdapter.Fill(this.bdsistemaoficialDataSet.aluno);
+                textBox1.Text = "";
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            procurarCad();
+            if (nome.Text == "" || user.Text == "" || senha.Text == "" || nascimento.Text == "")
+            {
+                MessageBox.Show("Campo preenchido incorretamente ou vazio.", "Sistema Simple Solution", MessageBoxButtons.OK);
+            }
+            else
+            {
+                this.Validate();
+                this.bindingSource1.EndEdit();
+                this.alunoTableAdapter.Update(bdsistemaoficialDataSet.aluno);
+                if (codResponsavel.Text == "0")
+                {
+                    MessageBox.Show("Responsável não cadastrado.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                }
+                MessageBox.Show("Atualizado com sucesso.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                textBox1.Text = "";
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            admCadProfessor abreProfessor = new admCadProfessor();
+            abreProfessor.Show();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            admCadResponsavel abreResponsavel = new admCadResponsavel();
+            abreResponsavel.Show();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e) 
+        {
+            
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            if (codResponsavel.Text == "")
+            {
+                MessageBox.Show("Campo preenchido incorretamente ou vazio.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                textBox1.Text = "";
+            }
+            if (codResponsavel.Text == "0")
+            {
+                MessageBox.Show("Registro não existe.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                textBox1.Text = "";
+            }
+            if (codResponsavel.Text != "" && codResponsavel.Text != "0")
+            {
+                procurarNome();
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            admCadIdioma abreIdioma = new admCadIdioma();
+            abreIdioma.Show();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            admCadTurma abreTurma = new admCadTurma();
+            abreTurma.Show();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            admCadAlunoTurma abreAlunoTurma = new admCadAlunoTurma();
+            abreAlunoTurma.Show();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            profCadFrequencia abreFrequencia = new profCadFrequencia();
+            abreFrequencia.Show();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            profCadNota abreNota = new profCadNota();
+            abreNota.Show();
+        }
+    }
+}
