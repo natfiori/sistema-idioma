@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.OleDb;
+
+namespace sistemaoficial
+{
+    public partial class admDesNota : Form
+    {
+        public admDesNota()
+        {
+            InitializeComponent();
+        }
+
+        private void admDesNota_Load(object sender, EventArgs e)
+        {
+            // TODO: esta linha de código carrega dados na tabela 'bdsistemaoficialDataSet.notas'. Você pode movê-la ou removê-la conforme necessário.
+            this.notasTableAdapter.Fill(this.bdsistemaoficialDataSet.notas);
+
+        }
+
+        class conexao
+        {
+            public OleDbConnection cn = new OleDbConnection();
+            public void conectar()
+            {
+                if (cn.State == ConnectionState.Open)
+                {
+                    cn.Close();
+                }
+                cn.ConnectionString = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=|DataDirectory|\bdsistemaoficial.mdb";
+                cn.Open();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int filtro = Convert.ToInt32(textBox1.Text);
+            string query = "SELECT * FROM notas WHERE codAluno LIKE '%" + filtro + "%'";
+            DataTable dt = new DataTable();
+
+            conexao conexao = new conexao();
+            conexao.conectar();
+
+            OleDbDataAdapter da = new OleDbDataAdapter(query, conexao.cn);
+            da.Fill(dt);
+
+            dataGridView1.DataSource = dt;
+        }
+    }
+}
