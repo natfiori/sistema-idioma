@@ -1,0 +1,31 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace sistemaoficial
+{
+    static class Program
+    {
+
+        public static short auxAdm = 0;
+        public static short auxPro = 0;
+        public static short auxAlu = 0;
+        public static int auxCodAluno = 0;
+
+        /// <summary>
+        /// Ponto de entrada principal para o aplicativo.
+        /// </summary>
+        [STAThread]
+
+
+
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new inicio());
+        }
+    }
+}
