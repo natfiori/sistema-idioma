@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace sistemaoficial
+{
+    public partial class admCadProfessor : Form
+    {
+        public admCadProfessor()
+        {
+            InitializeComponent();
+            nome.Focus();
+        }
+
+        private void admCadProfessor_Load(object sender, EventArgs e)
+        {
+            // TODO: esta linha de código carrega dados na tabela 'bdsistemaoficialDataSet.professor'. Você pode movê-la ou removê-la conforme necessário.
+            this.professorTableAdapter.Fill(this.bdsistemaoficialDataSet.professor);
+
+        }
+
+        private void textBox12_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (nome.Text == "" || user.Text == "" || senha.Text == "" || nascimento.Text == "")
+            {
+                MessageBox.Show("Campo preenchido incorretamente ou vazio.", "Sistema Simple Solution", MessageBoxButtons.OK);
+            }
+            else
+            {
+                this.professorTableAdapter.Insert(nome.Text, idioma.Text, Convert.ToDateTime(nascimento.Text), rg.Text, cpf.Text, endereco.Text, numero.Text, bairro.Text, cidade.Text, email.Text, telefone.Text, user.Text, senha.Text);
+                this.professorTableAdapter.Update(bdsistemaoficialDataSet.professor);
+                MessageBox.Show("Seu cadastro foi efetuado com sucesso.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                this.professorTableAdapter.Fill(this.bdsistemaoficialDataSet.professor);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Validate();
+            this.bindingSource1.EndEdit();
+            this.professorTableAdapter.Update(bdsistemaoficialDataSet.professor);
+            MessageBox.Show("Atualizado com sucesso.", "Sistema Simple Solution", MessageBoxButtons.OK);
+        }
+    }
+}
