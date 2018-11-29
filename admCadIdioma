@@ -1,0 +1,59 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace sistemaoficial
+{
+    public partial class admCadIdioma : Form
+    {
+        public admCadIdioma()
+        {
+            InitializeComponent();
+            nome.Focus();
+        }
+
+        private void admCadIdioma_Load(object sender, EventArgs e)
+        {
+            // TODO: esta linha de código carrega dados na tabela 'bdsistemaoficialDataSet.idioma'. Você pode movê-la ou removê-la conforme necessário.
+            this.idiomaTableAdapter.Fill(this.bdsistemaoficialDataSet.idioma);
+
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (nome.Text == "" || nivel.Text == "")
+            {
+                MessageBox.Show("Campo preenchido incorretamente ou vazio.", "Sistema Simple Solution", MessageBoxButtons.OK);
+            }
+            else
+            {
+                this.idiomaTableAdapter.Insert(nome.Text, nivel.Text);
+                this.idiomaTableAdapter.Update(bdsistemaoficialDataSet.idioma);
+                MessageBox.Show("Seu cadastro foi efetuado com sucesso.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                this.idiomaTableAdapter.Fill(this.bdsistemaoficialDataSet.idioma);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (nome.Text == "" || nivel.Text == "")
+            {
+                MessageBox.Show("Campo preenchido incorretamente ou vazio.", "Sistema Simple Solution", MessageBoxButtons.OK);
+            }
+            else
+            {
+                this.Validate();
+                this.bindingSource1.EndEdit();
+                this.idiomaTableAdapter.Update(bdsistemaoficialDataSet.idioma);
+                MessageBox.Show("Atualizado com sucesso.", "Sistema Simple Solution", MessageBoxButtons.OK);
+            }
+        }
+    }
+}
