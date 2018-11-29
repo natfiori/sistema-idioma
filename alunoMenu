@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace sistemaoficial
+{
+    public partial class alunoMenu : Form
+    {
+        public alunoMenu()
+        {
+            InitializeComponent();
+        }
+
+        private void sairToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            inicio abreIncio = new inicio();
+            abreIncio.Show();
+        }
+
+        private void frequênciaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            alunoDesFrequencia abreDesFrequencia = new alunoDesFrequencia();
+            abreDesFrequencia.Show();
+        }
+
+        private void notaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            alunoDesNota abreDesNota = new alunoDesNota();
+            abreDesNota.Show();
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+    }
+}
