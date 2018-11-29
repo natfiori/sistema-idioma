@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace sistemaoficial
+{
+    public partial class profMenu : Form
+    {
+        public profMenu()
+        {
+            InitializeComponent();
+        }
+
+        private void sairToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            inicio abreIncio = new inicio();
+            abreIncio.Show();
+        }
+
+        private void frequênciaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            profCadFrequencia abreCadFrequencia = new profCadFrequencia();
+            abreCadFrequencia.Show();
+        }
+
+        private void notaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            profCadNota abreCadNota = new profCadNota();
+            abreCadNota.Show();
+        }
+
+        private void cadastroToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
