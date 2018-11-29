@@ -1,0 +1,59 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace sistemaoficial
+{
+    public partial class inicio : Form
+    {
+        public inicio()
+        {
+            InitializeComponent();
+        }
+
+        void funAbreLogin()
+        {
+            login abreLogin = new login();
+            abreLogin.ShowDialog();
+        }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            sistemaoficial.Program.auxAdm = 1;
+            sistemaoficial.Program.auxPro = 0;
+            sistemaoficial.Program.auxAlu = 0;
+            this.Hide();
+            funAbreLogin();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            sistemaoficial.Program.auxPro = 1;
+            sistemaoficial.Program.auxAdm = 0;
+            sistemaoficial.Program.auxAlu = 0;
+            this.Hide();
+            funAbreLogin();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            sistemaoficial.Program.auxAlu = 1;
+            sistemaoficial.Program.auxAdm = 0;
+            sistemaoficial.Program.auxPro = 0;
+            this.Hide();
+            funAbreLogin();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+    }
+}
