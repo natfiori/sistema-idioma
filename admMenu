@@ -1,0 +1,75 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace sistemaoficial
+{
+    public partial class admMenu : Form
+    {
+        public admMenu()
+        {
+            InitializeComponent();
+        }
+
+        private void sairToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            inicio abreIncio = new inicio();
+            abreIncio.Show();
+        }
+
+        private void idiomaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            admCadIdioma abreCadIdioma = new admCadIdioma();
+            abreCadIdioma.Show();
+        }
+
+        private void alunoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            admCadAluno abreCadAluno = new admCadAluno();
+            abreCadAluno.Show();
+        }
+
+        private void responsávelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            admCadResponsavel abreCadResponsavel = new admCadResponsavel();
+            abreCadResponsavel.Show();
+        }
+
+        private void professorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            admCadProfessor abreCadProfessor = new admCadProfessor();
+            abreCadProfessor.Show();
+        }
+
+        private void turmaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            admCadTurma abreCadTurma = new admCadTurma();
+            abreCadTurma.Show();
+        }
+
+        private void alunoTurmaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            admCadAlunoTurma abreCadAlunoTurma = new admCadAlunoTurma();
+            abreCadAlunoTurma.Show();
+        }
+
+        private void frequênciaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            admDesFrequencia abreDesFrequencia = new admDesFrequencia();
+            abreDesFrequencia.Show();
+        }
+
+        private void notaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            admDesNota abreDesNota = new admDesNota();
+            abreDesNota.Show();
+        }
+    }
+}
