@@ -1,0 +1,58 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace sistemaoficial
+{
+    public partial class admCadResponsavel : Form
+    {
+        public admCadResponsavel()
+        {
+            InitializeComponent();
+            nome.Focus();
+        }
+
+        private void admCadResponsavel_Load(object sender, EventArgs e)
+        {
+            // TODO: esta linha de código carrega dados na tabela 'bdsistemaoficialDataSet.responsavel'. Você pode movê-la ou removê-la conforme necessário.
+            this.responsavelTableAdapter.Fill(this.bdsistemaoficialDataSet.responsavel);
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (nome.Text == "" || nascimento.Text == "")
+            {
+                MessageBox.Show("Campo preenchido incorretamente ou vazio.", "Sistema Simple Solution", MessageBoxButtons.OK);
+            }
+            else
+            {
+                this.responsavelTableAdapter.Insert(nome.Text, Convert.ToDateTime(nascimento.Text), rg.Text, cpf.Text, email.Text, telefone.Text);
+                this.responsavelTableAdapter.Update(bdsistemaoficialDataSet.responsavel);
+                MessageBox.Show("Seu cadastro foi efetuado com sucesso.", "Sistema Simple Solution", MessageBoxButtons.OK);
+                this.responsavelTableAdapter.Fill(this.bdsistemaoficialDataSet.responsavel);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (nome.Text == "" || nascimento.Text == "")
+            {
+                MessageBox.Show("Campo preenchido incorretamente ou vazio.", "Sistema Simple Solution", MessageBoxButtons.OK);
+            }
+            else
+            {
+                this.Validate();
+                this.bindingSource1.EndEdit();
+                this.responsavelTableAdapter.Update(bdsistemaoficialDataSet.responsavel);
+                MessageBox.Show("Atualizado com sucesso.", "Sistema Simple Solution", MessageBoxButtons.OK);
+            }
+        }
+    }
+}
